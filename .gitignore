@@ -1,0 +1,29 @@
+# Git ignore file
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Poetry virtualenvs
+poetry.lock
+
+# IDEs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Tests / coverage
+.coverage
+.pytest_cache/
+
+# environment variables
+.env

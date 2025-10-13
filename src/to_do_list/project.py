@@ -1,10 +1,11 @@
 import os
 from dotenv import load_dotenv
 load_dotenv()
+from collections import OrderedDict
 
 class Project:
     MAX_PROJECTS = int(os.getenv("MAX_NUMBER_OF_PROJECT", 10))
-    _projects_name = {}
+    _projects_name = OrderedDict()
     
     def __init__(self, name : str, description : str) -> None:
         if name in Project._projects_name:
@@ -26,5 +27,11 @@ class Project:
         self.description = new_description
     
        
-    
+if __name__ == "__main__":
+    p1 = Project("todolist", "implementarion of todolist in cli")
+    print(p1.description)
+    p1.change_description("jdugu vf vhj jh vjh jhd vvd")
+    print(p1.description)
+    p2 = Project("portolio", "implementation of site")
+    print(Project._projects_name["portolio"])
     

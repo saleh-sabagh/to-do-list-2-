@@ -22,7 +22,7 @@ class Project:
         self.description = description
         self.id = Project._id_counter
         Project._id_counter+=1
-
+        
     def change_name(self, new_name : str):
         self.name = new_name
     

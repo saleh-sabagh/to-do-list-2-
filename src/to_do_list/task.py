@@ -22,3 +22,12 @@ class Task:
         self.deadline = deadline
         self.status = "todo"
 
+    def change_title(self ,new_title):
+        if len(new_title) > 30 or len(new_title) < 1:            
+            raise ValueError("task's title must be less than 30 characters and not empty")
+        self.title = new_title
+    
+    def change_description(self ,new_description):
+        if len(new_description) > 150 or len(new_description) < 1:            
+            raise ValueError("task's description must be less than 150 characters and not empty") 
+        self.description = new_description

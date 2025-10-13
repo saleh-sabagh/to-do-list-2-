@@ -112,7 +112,16 @@ def main():
                 if not task:
                     continue
                 edit_task(task)
-
+                
+            elif choice == "4":
+                project = choose_project()
+                if not project:
+                    continue
+                task = choose_task(project)
+                if not task:
+                    continue
+                project.remove_task(task.id)
+                print(f"✅ Task deleted successfully!!")
 
                     
                 
@@ -127,3 +136,6 @@ def main():
         except Exception as e:
             print(f"⚠️ Error: {e}")
 
+if __name__ == "__main__":
+    main()
+    

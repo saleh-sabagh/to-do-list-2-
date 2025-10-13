@@ -3,9 +3,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class Project:
-    
     MAX_PROJECTS = int(os.getenv("MAX_NUMBER_OF_PROJECT", 10))
     _projects_name = {}
+    
     def __init__(self, name : str, description : str) -> None:
         if name in Project._projects_name:
             raise ValueError(f"Projec with name {name} already exists!")

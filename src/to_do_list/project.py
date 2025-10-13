@@ -2,6 +2,8 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 from collections import OrderedDict
+from task import Task
+from datetime import datetime
 
 class Project:
     MAX_PROJECTS = int(os.getenv("MAX_NUMBER_OF_PROJECT", 10))
@@ -21,15 +23,32 @@ class Project:
         Project._projects_name[name] = self
         self.description = description
         self.id = Project._id_counter
-        Project._id_counter+=1
-        
-    def change_name(self, new_name : str):
+        Project._id_counter += 1
+        self._task_counter = 1
+        self.tasks = OrderedDict()
+    
+    def change_name(self, new_name : str) -> None:
         self.name = new_name
     
-    def change_description(self, new_description : str):
+    def change_description(self, new_description : str) -> None:
         self.description = new_description
     
-       
+    def generate_task_id(self) -> str:
+        tid = f"P{self.id}-T{self._task_counter}"
+        self._task_counter += 1
+        return tid
+    
+    def add_task(self, title : str, description : str, deadline : datetime) -> Task:
+        task_id = self.generate_task_id()
+        task = Task(task_id, title, description, deadline)
+        self.tasks[task.id] = task
+        return task
+    
+    def remove_task(self, task_id : str) -> None:
+        if task_id not in self.tasks:
+            raise ValueError(f"No task with id {task_id}")
+        del self.tasks[task_id]
+    
 if __name__ == "__main__":
     p1 = Project("todolist", "implementarion of todolist in cli")
     print(p1.description)

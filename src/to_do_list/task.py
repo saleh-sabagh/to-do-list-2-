@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Literal
 class Task:
     
-    def __init__(self, title : str, description : str, deadline : datetime) -> None:
+    def __init__(self, id : int, title : str, description : str, deadline : datetime) -> None:
         if len(title) > 30 or len(title) < 1:            
             raise ValueError("task's title must be less than 30 characters and not empty")
         
@@ -16,7 +16,7 @@ class Task:
         
         if deadline_date < datetime.now():
             raise ValueError("Deadline cannot be in the past.")
-        
+        self.id = id
         self.title = title
         self.description = description
         self.deadline = deadline_date
@@ -47,6 +47,8 @@ class Task:
     def task_status(self):
         return self.status
     
+    def __repr__(self):
+        return f"Task(id='{self.id}', title='{self.title}')"
        
         
 if __name__ == "__main__":

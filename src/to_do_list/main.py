@@ -33,6 +33,21 @@ def main():
                 Project(name, desc)
                 print(f"✅ Project '{name}' created successfully.")
 
+            elif choice == "2":
+                print("List of projects: ")
+                projects_name_id = [(p.id , p.name) for p in Project._projects_name.values()]
+                for id , name in projects_name_id:
+                    print(f"{id}. {name}")
+                print("_____________________")
+                p_id = int(input("Select project ID to add a task: ").strip())
+                project_name = next(name for id , name in projects_name_id if p_id == id)
+                project = get_project_by_name(project_name)
+                title = input("Task title: ").strip()
+                desc = input("Description: ").strip()
+                deadline = input("Deadline: ").strip()
+                project.add_task(title, desc, deadline)
+                print(f"✅ Task '{title}' added to {project_name}.")
+                
         except Exception as e:
             print(f"⚠️ Error: {e}")
 

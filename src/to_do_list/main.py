@@ -97,19 +97,32 @@ def main():
                 print(f"✅ Project '{name}' created successfully.")
 
             elif choice == "2":
-                print("List of projects: ")
-                projects_name_id = [(p.id , p.name) for p in Project._projects_name.values()]
-                for id , name in projects_name_id:
-                    print(f"{id}. {name}")
-                print("_____________________")
-                p_id = int(input("Select project ID to add a task: ").strip())
-                project_name = next(name for id , name in projects_name_id if p_id == id)
-                project = get_project_by_name(project_name)
+                project = choose_project()
                 title = input("Task title: ").strip()
                 desc = input("Description: ").strip()
                 deadline = input("Deadline: ").strip()
                 project.add_task(title, desc, deadline)
-                print(f"✅ Task '{title}' added to {project_name}.")
+                print(f"✅ Task '{title}' added to {project.name}.")
+                
+            elif choice == "3":
+                project = choose_project()
+                if not project:
+                    continue
+                task = choose_task(project)
+                if not task:
+                    continue
+                edit_task(task)
+
+
+                    
+                
+
+            elif choice == "0":
+                print("👋 Goodbye!")
+                break
+            
+            else:
+                print("Invalid choice.")
                 
         except Exception as e:
             print(f"⚠️ Error: {e}")

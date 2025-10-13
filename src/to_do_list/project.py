@@ -1,3 +1,4 @@
+load_dotenv()
 class Project:
     
     def __init__(self, name : str, description : str) -> None:

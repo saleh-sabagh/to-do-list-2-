@@ -38,20 +38,22 @@ class Project:
         self._task_counter += 1
         return tid
     
-    def add_task(self, title : str, description : str, deadline : datetime) -> Task:
+    def add_task(self, title : str, description : str, deadline : datetime) -> None:
         task_id = self.generate_task_id()
         task = Task(task_id, title, description, deadline)
         self.tasks[task.id] = task
-        return task
+        
     
     def remove_task(self, task_id : str) -> None:
         if task_id not in self.tasks:
             raise ValueError(f"No task with id {task_id}")
         del self.tasks[task_id]
     
-    def show_projects(self) -> OrderedDict:
-        return [(p.id,p.name,p.description)  for p in Project._projects_name.values()]
+    def all_projects(self) -> OrderedDict:
+        return Project._projects_name
     
+    def all_project_tasks(self) -> OrderedDict:
+        return self.tasks
     
     
 if __name__ == "__main__":
@@ -62,4 +64,5 @@ if __name__ == "__main__":
     p2 = Project("portolio", "implementation of site")
     print(Project._projects_name["portolio"])
     p1.add_task("section 1" , "fkjbjvbfjb", "2026-12-01")
-    print(p1.show_projects())
+    a = p1.all_projects()[0]
+    print(a.all_project_tasks()["P1-T1"].deadline)

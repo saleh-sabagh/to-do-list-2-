@@ -1,6 +1,4 @@
 import os
-from dotenv import load_dotenv
-load_dotenv()
 from collections import OrderedDict
 from task import Task
 from datetime import datetime

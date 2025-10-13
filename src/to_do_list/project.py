@@ -49,6 +49,11 @@ class Project:
             raise ValueError(f"No task with id {task_id}")
         del self.tasks[task_id]
     
+    def show_projects(self) -> OrderedDict:
+        return [(p.id,p.name,p.description)  for p in Project._projects_name.values()]
+    
+    
+    
 if __name__ == "__main__":
     p1 = Project("todolist", "implementarion of todolist in cli")
     print(p1.description)
@@ -56,4 +61,5 @@ if __name__ == "__main__":
     print(p1.description)
     p2 = Project("portolio", "implementation of site")
     print(Project._projects_name["portolio"])
-    
+    p1.add_task("section 1" , "fkjbjvbfjb", "2026-12-01")
+    print(p1.show_projects())

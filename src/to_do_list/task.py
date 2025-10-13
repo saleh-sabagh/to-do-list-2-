@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Literal
 class Task:
+    _id_counter = 1
     
     def __init__(self, title : str, description : str, deadline : datetime) -> None:
         if len(title) > 30 or len(title) < 1:            
@@ -21,6 +22,8 @@ class Task:
         self.description = description
         self.deadline = deadline_date
         self.status = "todo"
+        self.id = Task._id_counter
+        Task._id_counter+=1
 
     def change_title(self ,new_title):
         if len(new_title) > 30 or len(new_title) < 1:            

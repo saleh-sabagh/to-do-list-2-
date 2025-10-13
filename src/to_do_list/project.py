@@ -6,6 +6,7 @@ from collections import OrderedDict
 class Project:
     MAX_PROJECTS = int(os.getenv("MAX_NUMBER_OF_PROJECT", 10))
     _projects_name = OrderedDict()
+    _id_counter = 1
     
     def __init__(self, name : str, description : str) -> None:
         if name in Project._projects_name:
@@ -19,6 +20,8 @@ class Project:
         self.name = name
         Project._projects_name[name] = self
         self.description = description
+        self.id = Project._id_counter
+        Project._id_counter+=1
 
     def change_name(self, new_name : str):
         self.name = new_name

@@ -98,6 +98,8 @@ def main():
 
             elif choice == "2":
                 project = choose_project()
+                if not project:
+                    continue
                 title = input("Task title: ").strip()
                 desc = input("Description: ").strip()
                 deadline = input("Deadline: ").strip()

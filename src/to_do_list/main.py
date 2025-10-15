@@ -30,9 +30,13 @@ def choose_project():
     print("_____________________")
 
     try:
-        p_id = int(input("Select project's ID: ").strip())
-        project_name = next(name for pid, name in projects if p_id == pid)
-        return get_project_by_name(project_name)
+        if projects:
+            p_id = int(input("Select project's ID: ").strip())
+            project_name = next(name for pid, name in projects if p_id == pid)
+            return get_project_by_name(project_name)
+        else:
+            print("There isnot any project yet!")
+            return
     except (ValueError, StopIteration):
         print("Invalid project ID!")
         return None
@@ -84,12 +88,14 @@ def edit_task(task):
         print("Invalid option.")
 
 def show_projects():
-    print("List of projects:")
     projects = [(p.id, p.name) for p in Project._projects_name.values()]
-    for pid, name in projects:
-        print(f"{pid}. {name}")
+    if projects:
+        print("List of projects:")
+        for pid, name in projects:
+            print(f"{pid}. {name}")
+    else:
+        print("There isnot any project yet!")
     print("_____________________")
-    
     
 def main():
     while True:

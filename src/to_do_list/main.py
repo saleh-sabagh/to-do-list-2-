@@ -83,7 +83,14 @@ def edit_task(task):
     else:
         print("Invalid option.")
 
-
+def show_projects():
+    print("List of projects:")
+    projects = [(p.id, p.name) for p in Project._projects_name.values()]
+    for pid, name in projects:
+        print(f"{pid}. {name}")
+    print("_____________________")
+    
+    
 def main():
     while True:
         show_menu()
@@ -125,7 +132,10 @@ def main():
                 project.remove_task(task.id)
                 print(f"✅ Task deleted successfully!!")
 
-                    
+            elif choice == "5":
+                show_projects()
+            
+                 
                 
 
             elif choice == "0":

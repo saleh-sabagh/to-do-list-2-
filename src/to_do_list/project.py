@@ -32,7 +32,7 @@ class Project:
         self.description = new_description
     
     def generate_task_id(self) -> str:
-        tid = f"P{self.id}-T{self._task_counter}"
+        tid = f"p{self.id}-t{self._task_counter}"
         self._task_counter += 1
         return tid
     

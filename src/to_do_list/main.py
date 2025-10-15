@@ -154,6 +154,12 @@ def main():
                     print(f"{tid}. {title}")
                 print("_____________________")
 
+            elif choice == "7":
+                project = choose_project()
+                if not project:
+                    continue
+                del project
+                print(f"✅ Project deleted successfully!")
             elif choice == "0":
                 print("👋 Goodbye!")
                 break

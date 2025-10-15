@@ -23,23 +23,19 @@ def get_project_by_name(name : str) -> Project:
 
 
 def choose_project():
-    print("List of projects:")
+    show_projects()
     projects = [(p.id, p.name) for p in Project._projects_name.values()]
-    for pid, name in projects:
-        print(f"{pid}. {name}")
-    print("_____________________")
-
     try:
         if projects:
             p_id = int(input("Select project's ID: ").strip())
             project_name = next(name for pid, name in projects if p_id == pid)
-            return get_project_by_name(project_name)
+            return get_project_by_name(project_name), project_name
         else:
             print("There isnot any project yet!")
             return
     except (ValueError, StopIteration):
         print("Invalid project ID!")
-        return None
+        return None, None
 
 
 def choose_task(project):
@@ -110,7 +106,7 @@ def main():
                 print(f"✅ Project '{name}' created successfully.")
 
             elif choice == "2":
-                project = choose_project()
+                project,_ = choose_project()
                 if not project:
                     continue
                 title = input("Task title: ").strip()
@@ -120,7 +116,7 @@ def main():
                 print(f"✅ Task '{title}' added to {project.name}.")
                 
             elif choice == "3":
-                project = choose_project()
+                project, _ = choose_project()
                 if not project:
                     continue
                 task = choose_task(project)
@@ -129,7 +125,7 @@ def main():
                 edit_task(task)
                 
             elif choice == "4":
-                project = choose_project()
+                project,_ = choose_project()
                 if not project:
                     continue
                 task = choose_task(project)
@@ -142,7 +138,7 @@ def main():
                 show_projects()
             
             elif choice == "6":
-                project = choose_project()
+                project,_ = choose_project()
                 if not project:
                     continue
                 tasks = [(t.id, t.title, t) for t in project.all_project_tasks().values()]
@@ -155,11 +151,12 @@ def main():
                 print("_____________________")
 
             elif choice == "7":
-                project = choose_project()
+                project, project_name = choose_project()
                 if not project:
                     continue
-                del project
+                project.delete_project(project_name)
                 print(f"✅ Project deleted successfully!")
+                
             elif choice == "0":
                 print("👋 Goodbye!")
                 break

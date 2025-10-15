@@ -25,6 +25,13 @@ class Project:
         self._task_counter = 1
         self.tasks = OrderedDict()
     
+    @classmethod
+    def delete_project(cls, name: str):
+        if name in cls._projects_name:
+            del cls._projects_name[name]
+        else:
+            print("No project found with that name.")
+            
     def change_name(self, new_name : str) -> None:
         self.name = new_name
     
@@ -41,7 +48,6 @@ class Project:
         task = Task(task_id, title, description, deadline)
         self.tasks[task.id] = task
         
-    
     def remove_task(self, task_id : str) -> None:
         if task_id not in self.tasks:
             raise ValueError(f"No task with id {task_id}")
@@ -53,7 +59,7 @@ class Project:
     def all_project_tasks(self) -> OrderedDict:
         return self.tasks
     
-    
+
 if __name__ == "__main__":
     p1 = Project("todolist", "implementarion of todolist in cli")
     print(p1.description)

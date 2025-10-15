@@ -24,6 +24,7 @@ class Project:
         Project._id_counter += 1
         self._task_counter = 1
         self.tasks = OrderedDict()
+        self.MAX_TASKS = int(os.getenv("MAX_NUMBER_OF_TASK", 10))
     
     @classmethod
     def delete_project(cls, name: str):
@@ -44,6 +45,8 @@ class Project:
         return tid
     
     def add_task(self, title : str, description : str, deadline : datetime) -> None:
+        if len(self.tasks)>=self.MAX_TASKS:
+            raise ValueError(f"Cannot create more than {self.MAX_TASKS} tasks!")
         task_id = self.generate_task_id()
         task = Task(task_id, title, description, deadline)
         self.tasks[task.id] = task

@@ -141,8 +141,18 @@ def main():
             elif choice == "5":
                 show_projects()
             
-                 
-                
+            elif choice == "6":
+                project = choose_project()
+                if not project:
+                    continue
+                tasks = [(t.id, t.title, t) for t in project.all_project_tasks().values()]
+                if not tasks:
+                    print("There are no tasks in this project.")
+                    continue
+                print("List of tasks:")
+                for tid, title, _ in tasks:
+                    print(f"{tid}. {title}")
+                print("_____________________")
 
             elif choice == "0":
                 print("👋 Goodbye!")

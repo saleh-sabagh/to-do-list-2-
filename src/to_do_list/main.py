@@ -6,18 +6,20 @@ load_dotenv()
 
 
 def show_menu() -> None:
-    """Display the main menu of the TO DO List Manager."""
-    print("\n===== TO DO LIST MANAGER =====")
-    print("1. Create new project")
-    print("2. Add task to project")
-    print("3. Edit project")
-    print("4. Edit task")
-    print("5. Delete task from project")
-    print("6. List all projects")
-    print("7. List tasks in project")
-    print("8. Delete project")
-    print("0. Exit")
-    print("==============================")
+    """Display the main menu of the TO DO List Manager with clear formatting."""
+    print("\n" + "=" * 35)
+    print("      📝 TO DO LIST MANAGER 📝      ")
+    print("=" * 35)
+    print("1️⃣  Create new project")
+    print("2️⃣  Add task to project")
+    print("3️⃣  Edit project")
+    print("4️⃣  Edit task")
+    print("5️⃣  Delete task from project")
+    print("6️⃣  List all projects")
+    print("7️⃣  List tasks in project")
+    print("8️⃣  Delete project")
+    print("0️⃣  Exit")
+    print("=" * 35)
 
 
 def get_project_by_name(name: str) -> Project:
@@ -39,56 +41,46 @@ def get_project_by_name(name: str) -> Project:
 
 
 def choose_project() -> tuple[Project | None, str | None]:
-    """Prompt the user to choose a project from the list.
-
-    Returns:
-        tuple[Project | None, str | None]: The selected Project and its name,
-            or (None, None) if no project is selected or invalid input.
-    """
+    """Prompt the user to choose a project and display projects in a nice table format."""
     projects = [(p.id, p.name) for p in Project.all_projects().values()]
     if projects:
-        print("List of projects:")
+        print("\n📂 List of Projects:")
+        print("-" * 35)
         for pid, name in projects:
-            print(f"{pid}. {name}")
+            print(f"ID: {pid:<3} | Name: {name}")
+        print("-" * 35)
     else:
-        print("There is not any project yet!")
-    print("_____________________")
+        print("⚠️  There are no projects yet!")
+        return None, None
+
     try:
-        if projects:
-            p_id = int(input("Select project's ID: ").strip())
-            project_name = next(name for pid, name in projects if p_id == pid)
-            return get_project_by_name(project_name), project_name
-        return None, None
+        p_id = int(input("Select project's ID: ").strip())
+        project_name = next(name for pid, name in projects if p_id == pid)
+        return get_project_by_name(project_name), project_name
     except (ValueError, StopIteration):
-        print("Invalid project ID!")
+        print("❌ Invalid project ID!")
         return None, None
+
 
 
 def choose_task(project: Project) -> Task | None:
-    """Prompt the user to choose a task from the given project.
-
-    Args:
-        project (Project): The project to select a task from.
-
-    Returns:
-        Task | None: The selected Task instance, or None if invalid input
-            or no tasks exist.
-    """
+    """Prompt the user to choose a task from the project and display tasks neatly."""
     tasks = [(t.id, t.title, t) for t in project.all_project_tasks().values()]
     if not tasks:
-        print("There are no tasks in this project.")
+        print("⚠️  There are no tasks in this project.")
         return None
 
-    print("List of tasks:")
+    print("\n📋 List of Tasks:")
+    print("-" * 35)
     for tid, title, _ in tasks:
-        print(f"{tid}. {title}")
-    print("_____________________")
+        print(f"ID: {tid:<3} | Title: {title}")
+    print("-" * 35)
 
     try:
         t_id = input("Enter task ID: ").strip()
         return next(t for tid, _, t in tasks if tid == t_id)
     except (ValueError, StopIteration):
-        print("Invalid task ID!")
+        print("❌ Invalid task ID!")
         return None
 
 
@@ -204,15 +196,15 @@ def main() -> None:
             elif choice == "6":
                 projects = [(p.id, p.name, p.description) for p in Project.all_projects().values()]
                 if projects:
-                    print("Your projects:")
+                    print("\n📂 Your Projects:")
+                    print("=" * 50)
                     for pid, name, desc in projects:
-                        print("────────────────────────────────────────")
-                        print(f"🆔 ID: {pid}")
-                        print(f"📁 Name: {name}")
+                        print(f"🆔 ID         : {pid}")
+                        print(f"📁 Name       : {name}")
                         print(f"📝 Description: {desc}")
-                    print("────────────────────────────────────────")
+                        print("-" * 50)
                 else:
-                    print("There is not any project yet!")
+                    print("⚠️  There are no projects yet!")
                 print("_____________________")
 
             elif choice == "7":
@@ -222,19 +214,18 @@ def main() -> None:
 
                 tasks = [(t.id, t.title, t.description, t.status) for t in project.all_project_tasks().values()]
 
-                if not tasks:
+                if tasks:
+                    print("\n📋 Tasks in Project:")
+                    print("=" * 50)
+                    for tid, title, desc, status in tasks:
+                        short_desc = desc if len(desc) < 100 else desc[:100] + "..."
+                        print(f"🆔 Task ID     : {tid}")
+                        print(f"📌 Title       : {title}")
+                        print(f"📝 Description : {short_desc}")
+                        print(f"📊 Status      : {status}")
+                        print("-" * 50)
+                else:
                     print("⚠️  There are no tasks in this project.")
-                    continue
-
-                print("\n📋 List of Tasks:")
-                print("────────────────────────────────────────")
-                for tid, title, desc, status in tasks:
-                    short_desc = desc if len(desc) < 100 else desc[:100] + "..."
-                    print(f"🆔  Task ID     : {tid}")
-                    print(f"📌  Title       : {title}")
-                    print(f"📝  Description : {short_desc}")
-                    print(f"📊  Status      : {status}")
-                    print("────────────────────────────────────────")
                 print()
 
             elif choice == "8":

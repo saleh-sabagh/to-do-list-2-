@@ -69,7 +69,8 @@ def edit_task(task):
     print("What do you want to change?\n"
           "1. Title\n"
           "2. Description\n"
-          "3. Deadline")
+          "3. Deadline\n"
+          "4. Status")
     try:
         choice = int(input("Choose option: ").strip())
     except ValueError:
@@ -88,10 +89,17 @@ def edit_task(task):
         new_deadline = input("Enter new deadline (YYYY-MM-DD): ").strip()
         task.change_deadline(new_deadline)
         print("✅ Deadline updated.")
+    elif choice == 4:
+        new_status = input("Enter new status (todo or doing or done): ")
+        try:
+            task.change_status(new_status)
+            print(f"✅ Status updated.")
+        except:
+            raise ValueError(f"Invalid status: {new_status}")
     else:
         print("Invalid option.")
     
-    
+
 def main():
     while True:
         show_menu()

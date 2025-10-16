@@ -1,13 +1,15 @@
 from project import Project
 from task import Task
 from dotenv import load_dotenv
+
 load_dotenv()
 
-def show_menu():
+
+def show_menu() -> None:
     print("\n===== TO DO LIST MANAGER =====")
     print("1. Create new project")
     print("2. Add task to project")
-    print("3. Edit project")       
+    print("3. Edit project")
     print("4. Edit task")
     print("5. Delete task from project")
     print("6. List all projects")
@@ -15,42 +17,41 @@ def show_menu():
     print("8. Delete project")
     print("0. Exit")
     print("==============================")
-    
-    
-def get_project_by_name(name : str) -> Project:
+
+
+def get_project_by_name(name: str) -> Project:
     projects = Project.all_projects()
     if name not in projects:
         raise ValueError("Project not found.")
     return projects[name]
 
 
-def choose_project():
+def choose_project() -> tuple[Project | None, str | None]:
     projects = [(p.id, p.name) for p in Project.all_projects().values()]
     if projects:
         print("List of projects:")
         for pid, name in projects:
             print(f"{pid}. {name}")
     else:
-        print("There isnot any project yet!")
+        print("There is not any project yet!")
     print("_____________________")
     try:
         if projects:
             p_id = int(input("Select project's ID: ").strip())
             project_name = next(name for pid, name in projects if p_id == pid)
             return get_project_by_name(project_name), project_name
-        else:
-            print("There isnot any project yet!")
-            return
+        return None, None
     except (ValueError, StopIteration):
         print("Invalid project ID!")
         return None, None
 
 
-def choose_task(project):
+def choose_task(project: Project) -> Task | None:
     tasks = [(t.id, t.title, t) for t in project.all_project_tasks().values()]
     if not tasks:
         print("There are no tasks in this project.")
         return None
+
     print("List of tasks:")
     for tid, title, _ in tasks:
         print(f"{tid}. {title}")
@@ -58,16 +59,14 @@ def choose_task(project):
 
     try:
         t_id = input("Enter task ID: ").strip()
-        
         return next(t for tid, _, t in tasks if tid == t_id)
     except (ValueError, StopIteration):
         print("Invalid task ID!")
         return None
 
-def edit_project(project):
-    print("What do you want to change?\n"
-          "1. Title\n"
-          "2. Description")
+
+def edit_project(project: Project) -> None:
+    print("What do you want to change?\n1. Title\n2. Description")
     try:
         choice = int(input("Choose option: ").strip())
     except ValueError:
@@ -84,13 +83,10 @@ def edit_project(project):
         print("✅ Description updated.")
     else:
         print("Invalid option.")
-        
-def edit_task(task):
-    print("What do you want to change?\n"
-          "1. Title\n"
-          "2. Description\n"
-          "3. Deadline\n"
-          "4. Status")
+
+
+def edit_task(task: Task) -> None:
+    print("What do you want to change?\n1. Title\n2. Description\n3. Deadline\n4. Status")
     try:
         choice = int(input("Choose option: ").strip())
     except ValueError:
@@ -110,17 +106,17 @@ def edit_task(task):
         task.change_deadline(new_deadline)
         print("✅ Deadline updated.")
     elif choice == 4:
-        new_status = input("Enter new status (todo or doing or done): ")
+        new_status = input("Enter new status (todo, doing, done): ").strip()
         try:
             task.change_status(new_status)
-            print(f"✅ Status updated.")
-        except:
-            raise ValueError(f"Invalid status: {new_status}")
+            print("✅ Status updated.")
+        except ValueError:
+            print(f"Invalid status: {new_status}")
     else:
         print("Invalid option.")
-    
 
-def main():
+
+def main() -> None:
     while True:
         show_menu()
         choice = input("Choose an option: ").strip()
@@ -133,7 +129,7 @@ def main():
                 print(f"✅ Project '{name}' created successfully.")
 
             elif choice == "2":
-                project,_ = choose_project()
+                project, _ = choose_project()
                 if not project:
                     continue
                 title = input("Task title: ").strip()
@@ -141,12 +137,13 @@ def main():
                 deadline = input("Deadline: ").strip()
                 project.add_task(title, desc, deadline)
                 print(f"✅ Task '{title}' added to {project.name}.")
-                
+
             elif choice == "3":
                 project, _ = choose_project()
                 if not project:
                     continue
                 edit_project(project)
+
             elif choice == "4":
                 project, _ = choose_project()
                 if not project:
@@ -155,16 +152,16 @@ def main():
                 if not task:
                     continue
                 edit_task(task)
-                
+
             elif choice == "5":
-                project,_ = choose_project()
+                project, _ = choose_project()
                 if not project:
                     continue
                 task = choose_task(project)
                 if not task:
                     continue
                 project.remove_task(task.id)
-                print(f"✅ Task deleted successfully!!")
+                print("✅ Task deleted successfully!!")
 
             elif choice == "6":
                 projects = [(p.id, p.name, p.description) for p in Project.all_projects().values()]
@@ -176,13 +173,12 @@ def main():
                         print(f"📁 Name: {name}")
                         print(f"📝 Description: {desc}")
                     print("────────────────────────────────────────")
-
                 else:
-                    print("There isnot any project yet!")
+                    print("There is not any project yet!")
                 print("_____________________")
-            
+
             elif choice == "7":
-                project,_ = choose_project()
+                project, _ = choose_project()
                 if not project:
                     continue
 
@@ -194,7 +190,6 @@ def main():
 
                 print("\n📋 List of Tasks:")
                 print("────────────────────────────────────────")
-
                 for tid, title, desc, status in tasks:
                     short_desc = desc if len(desc) < 100 else desc[:100] + "..."
                     print(f"🆔  Task ID     : {tid}")
@@ -202,28 +197,24 @@ def main():
                     print(f"📝  Description : {short_desc}")
                     print(f"📊  Status      : {status}")
                     print("────────────────────────────────────────")
-
                 print()
-
-
 
             elif choice == "8":
                 project, project_name = choose_project()
                 if not project:
                     continue
                 Project.delete_project(project_name)
-                print(f"✅ Project deleted successfully!")
-                
+                print("✅ Project deleted successfully!")
+
             elif choice == "0":
                 print("👋 Goodbye!")
                 break
-            
             else:
                 print("Invalid choice.")
-                
+
         except Exception as e:
             print(f"⚠️ Error: {e}")
 
+
 if __name__ == "__main__":
     main()
-    

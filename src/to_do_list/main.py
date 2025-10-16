@@ -7,11 +7,12 @@ def show_menu():
     print("\n===== TO DO LIST MANAGER =====")
     print("1. Create new project")
     print("2. Add task to project")
-    print("3. Edit task")    
-    print("4. Delete task from project")
-    print("5. List all projects")
-    print("6. List tasks in project")
-    print("7. Delete project")
+    print("3. Edit project")       
+    print("4. Edit task")
+    print("5. Delete task from project")
+    print("6. List all projects")
+    print("7. List tasks in project")
+    print("8. Delete project")
     print("0. Exit")
     print("==============================")
     
@@ -88,7 +89,7 @@ def edit_task(task):
         print("✅ Deadline updated.")
     else:
         print("Invalid option.")
-
+    
     
 def main():
     while True:
@@ -112,7 +113,7 @@ def main():
                 project.add_task(title, desc, deadline)
                 print(f"✅ Task '{title}' added to {project.name}.")
                 
-            elif choice == "3":
+            elif choice == "4":
                 project, _ = choose_project()
                 if not project:
                     continue
@@ -121,7 +122,7 @@ def main():
                     continue
                 edit_task(task)
                 
-            elif choice == "4":
+            elif choice == "5":
                 project,_ = choose_project()
                 if not project:
                     continue
@@ -131,9 +132,6 @@ def main():
                 project.remove_task(task.id)
                 print(f"✅ Task deleted successfully!!")
 
-            elif choice == "5":
-                pass
-            
             elif choice == "6":
                 projects = [(p.id, p.name, p.description) for p in Project._projects_name.values()]
                 if projects:
@@ -162,7 +160,7 @@ def main():
                     print(f"{tid}. {title}")
                 print("_____________________")
 
-            elif choice == "7":
+            elif choice == "8":
                 project, project_name = choose_project()
                 if not project:
                     continue

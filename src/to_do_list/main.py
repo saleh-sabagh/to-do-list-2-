@@ -6,6 +6,7 @@ load_dotenv()
 
 
 def show_menu() -> None:
+    """Display the main menu of the TO DO List Manager."""
     print("\n===== TO DO LIST MANAGER =====")
     print("1. Create new project")
     print("2. Add task to project")
@@ -20,6 +21,17 @@ def show_menu() -> None:
 
 
 def get_project_by_name(name: str) -> Project:
+    """Retrieve a Project instance by its name.
+
+    Args:
+        name (str): Name of the project.
+
+    Raises:
+        ValueError: If the project does not exist.
+
+    Returns:
+        Project: The project instance with the given name.
+    """
     projects = Project.all_projects()
     if name not in projects:
         raise ValueError("Project not found.")
@@ -27,6 +39,12 @@ def get_project_by_name(name: str) -> Project:
 
 
 def choose_project() -> tuple[Project | None, str | None]:
+    """Prompt the user to choose a project from the list.
+
+    Returns:
+        tuple[Project | None, str | None]: The selected Project and its name,
+            or (None, None) if no project is selected or invalid input.
+    """
     projects = [(p.id, p.name) for p in Project.all_projects().values()]
     if projects:
         print("List of projects:")
@@ -47,6 +65,15 @@ def choose_project() -> tuple[Project | None, str | None]:
 
 
 def choose_task(project: Project) -> Task | None:
+    """Prompt the user to choose a task from the given project.
+
+    Args:
+        project (Project): The project to select a task from.
+
+    Returns:
+        Task | None: The selected Task instance, or None if invalid input
+            or no tasks exist.
+    """
     tasks = [(t.id, t.title, t) for t in project.all_project_tasks().values()]
     if not tasks:
         print("There are no tasks in this project.")
@@ -66,6 +93,11 @@ def choose_task(project: Project) -> Task | None:
 
 
 def edit_project(project: Project) -> None:
+    """Edit the title or description of a project.
+
+    Args:
+        project (Project): The project to edit.
+    """
     print("What do you want to change?\n1. Title\n2. Description")
     try:
         choice = int(input("Choose option: ").strip())
@@ -86,6 +118,11 @@ def edit_project(project: Project) -> None:
 
 
 def edit_task(task: Task) -> None:
+    """Edit the title, description, deadline, or status of a task.
+
+    Args:
+        task (Task): The task to edit.
+    """
     print("What do you want to change?\n1. Title\n2. Description\n3. Deadline\n4. Status")
     try:
         choice = int(input("Choose option: ").strip())
@@ -117,6 +154,7 @@ def edit_task(task: Task) -> None:
 
 
 def main() -> None:
+    """Run the main loop of the TO DO List Manager."""
     while True:
         show_menu()
         choice = input("Choose an option: ").strip()

@@ -49,13 +49,4 @@ class Task:
     def task_status(self):
         return self.status
     
-    def __repr__(self):
-        return f"Task(id='{self.id}', title='{self.title}')"
-       
-        
-if __name__ == "__main__":
-    task1 = Task("home work" ,"the math home woek to do" , "2026-12-23")
-    print(task1.title)
-    task1.change_description("jfjbibfisfbvjdnvfjbf ")
-    print(task1.deadline)
-    print(task1.task_status())
+    

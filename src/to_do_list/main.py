@@ -167,7 +167,7 @@ def main():
                 project, project_name = choose_project()
                 if not project:
                     continue
-                project.delete_project(project_name)
+                Project.delete_project(project_name)
                 print(f"✅ Project deleted successfully!")
                 
             elif choice == "0":

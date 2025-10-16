@@ -57,8 +57,9 @@ class Project:
         if task_id not in self.tasks:
             raise ValueError(f"No task with id {task_id}")
         del self.tasks[task_id]
-    
-    def all_projects(self) -> OrderedDict:
+        
+    @classmethod
+    def all_projects(cls) -> OrderedDict:
         return Project._projects_name
     
     def all_project_tasks(self) -> OrderedDict:

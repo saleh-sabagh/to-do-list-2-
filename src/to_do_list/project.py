@@ -63,13 +63,3 @@ class Project:
         return self.tasks
     
 
-if __name__ == "__main__":
-    p1 = Project("todolist", "implementarion of todolist in cli")
-    print(p1.description)
-    p1.change_description("jdugu vf vhj jh vjh jhd vvd")
-    print(p1.description)
-    p2 = Project("portolio", "implementation of site")
-    print(Project._projects_name["portolio"])
-    p1.add_task("section 1" , "fkjbjvbfjb", "2026-12-01")
-    a = p1.all_projects()[0]
-    print(a.all_project_tasks()["P1-T1"].deadline)

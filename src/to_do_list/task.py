@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Literal
 class Task:
     
-    def __init__(self, id : int, title : str, description : str, deadline : datetime) -> None:
+    def __init__(self, id : str, title : str, description : str, deadline : datetime) -> None:
         if len(title) > 30 or len(title) < 1:            
             raise ValueError("task's title must be less than 30 characters and not empty")
         

@@ -33,7 +33,9 @@ class Task:
         self.description = new_description
     
     def change_status(self ,new_status : Literal["todo", "doing" ,"done"]):
-        self.status = new_status 
+        if new_status not in ("todo", "doing", "done"):
+            raise ValueError(f"Invalid status: {new_status}")
+        self.status = new_status
     
     def change_deadline(self ,new_deadline : datetime):
         try:

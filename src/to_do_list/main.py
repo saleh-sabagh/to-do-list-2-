@@ -135,6 +135,21 @@ def main():
                 pass
             
             elif choice == "6":
+                projects = [(p.id, p.name, p.description) for p in Project._projects_name.values()]
+                if projects:
+                    print("Your projects:")
+                    for pid, name, desc in projects:
+                        print("────────────────────────────────────────")
+                        print(f"🆔 ID: {pid}")
+                        print(f"📁 Name: {name}")
+                        print(f"📝 Description: {desc}")
+                    print("────────────────────────────────────────")
+
+                else:
+                    print("There isnot any project yet!")
+                print("_____________________")
+            
+            elif choice == "7":
                 project,_ = choose_project()
                 if not project:
                     continue

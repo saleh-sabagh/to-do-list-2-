@@ -18,13 +18,14 @@ def show_menu():
     
     
 def get_project_by_name(name : str) -> Project:
-    if name not in Project._projects_name:
+    projects = Project.all_projects()
+    if name not in projects:
         raise ValueError("Project not found.")
-    return Project._projects_name[name]
+    return projects[name]
 
 
 def choose_project():
-    projects = [(p.id, p.name) for p in Project._projects_name.values()]
+    projects = [(p.id, p.name) for p in Project.all_projects().values()]
     if projects:
         print("List of projects:")
         for pid, name in projects:
@@ -133,7 +134,7 @@ def main():
                 print(f"✅ Task deleted successfully!!")
 
             elif choice == "6":
-                projects = [(p.id, p.name, p.description) for p in Project._projects_name.values()]
+                projects = [(p.id, p.name, p.description) for p in Project.all_projects().values()]
                 if projects:
                     print("Your projects:")
                     for pid, name, desc in projects:
@@ -151,7 +152,9 @@ def main():
                 project,_ = choose_project()
                 if not project:
                     continue
-                tasks = [(t.id, t.title, t) for t in project.all_project_tasks().values()]
+
+                tasks = [(t.id, t.title, t.description, t.status) for t in project.all_project_tasks().values()]
+
                 if not tasks:
                     print("There are no tasks in this project.")
                     continue

@@ -189,12 +189,23 @@ def main():
                 tasks = [(t.id, t.title, t.description, t.status) for t in project.all_project_tasks().values()]
 
                 if not tasks:
-                    print("There are no tasks in this project.")
+                    print("⚠️  There are no tasks in this project.")
                     continue
-                print("List of tasks:")
-                for tid, title, _ in tasks:
-                    print(f"{tid}. {title}")
-                print("_____________________")
+
+                print("\n📋 List of Tasks:")
+                print("────────────────────────────────────────")
+
+                for tid, title, desc, status in tasks:
+                    short_desc = desc if len(desc) < 100 else desc[:100] + "..."
+                    print(f"🆔  Task ID     : {tid}")
+                    print(f"📌  Title       : {title}")
+                    print(f"📝  Description : {short_desc}")
+                    print(f"📊  Status      : {status}")
+                    print("────────────────────────────────────────")
+
+                print()
+
+
 
             elif choice == "8":
                 project, project_name = choose_project()

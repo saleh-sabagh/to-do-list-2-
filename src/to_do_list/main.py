@@ -64,7 +64,27 @@ def choose_task(project):
         print("Invalid task ID!")
         return None
 
+def edit_project(project):
+    print("What do you want to change?\n"
+          "1. Title\n"
+          "2. Description")
+    try:
+        choice = int(input("Choose option: ").strip())
+    except ValueError:
+        print("Invalid choice.")
+        return
 
+    if choice == 1:
+        new_name = input("Enter new name: ").strip()
+        project.change_name(new_name)
+        print("✅ Name updated.")
+    elif choice == 2:
+        new_desc = input("Enter new description: ").strip()
+        project.change_description(new_desc)
+        print("✅ Description updated.")
+    else:
+        print("Invalid option.")
+        
 def edit_task(task):
     print("What do you want to change?\n"
           "1. Title\n"
@@ -122,6 +142,11 @@ def main():
                 project.add_task(title, desc, deadline)
                 print(f"✅ Task '{title}' added to {project.name}.")
                 
+            elif choice == "3":
+                project, _ = choose_project()
+                if not project:
+                    continue
+                edit_project(project)
             elif choice == "4":
                 project, _ = choose_project()
                 if not project:

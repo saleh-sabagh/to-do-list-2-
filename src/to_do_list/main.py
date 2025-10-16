@@ -23,8 +23,14 @@ def get_project_by_name(name : str) -> Project:
 
 
 def choose_project():
-    show_projects()
     projects = [(p.id, p.name) for p in Project._projects_name.values()]
+    if projects:
+        print("List of projects:")
+        for pid, name in projects:
+            print(f"{pid}. {name}")
+    else:
+        print("There isnot any project yet!")
+    print("_____________________")
     try:
         if projects:
             p_id = int(input("Select project's ID: ").strip())
@@ -83,15 +89,6 @@ def edit_task(task):
     else:
         print("Invalid option.")
 
-def show_projects():
-    projects = [(p.id, p.name) for p in Project._projects_name.values()]
-    if projects:
-        print("List of projects:")
-        for pid, name in projects:
-            print(f"{pid}. {name}")
-    else:
-        print("There isnot any project yet!")
-    print("_____________________")
     
 def main():
     while True:
@@ -135,7 +132,7 @@ def main():
                 print(f"✅ Task deleted successfully!!")
 
             elif choice == "5":
-                show_projects()
+                pass
             
             elif choice == "6":
                 project,_ = choose_project()

@@ -34,8 +34,10 @@ class Project:
             print("No project found with that name.")
             
     def change_name(self, new_name : str) -> None:
+        type(self)._projects_name.pop(self.name)
+        type(self)._projects_name[new_name] = self
         self.name = new_name
-    
+
     def change_description(self, new_description : str) -> None:
         self.description = new_description
     

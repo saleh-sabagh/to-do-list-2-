@@ -36,8 +36,8 @@ class Project:
             raise ValueError(f"Cannot create more than {Project.MAX_PROJECTS} projects!")
         if len(name) > 30 or len(name) < 1:
             raise ValueError("Project name must be less than 30 characters and not empty.")
-        if len(description) > 150 or len(description) < 1:
-            raise ValueError("Project description must be less than 150 characters and not empty.")
+        if len(description) > 150:
+            raise ValueError("Project description must be less than 150 characters.")
 
         self.name: str = name
         Project._projects_name[name] = self

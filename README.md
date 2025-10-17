@@ -32,7 +32,7 @@ python --version
 
 ```bash
 git clone https://github.com/saleh-sabagh/to-do-list-2-
-cd To-Do-List/src/to_do_list
+cd to-do-list-2-/src/to_do_list
 ```
 
 ### 3️⃣ Install dependencies
@@ -102,3 +102,4 @@ Add or remove tasks
 Edit project name or description
 
 Retrieve and list project tasks
+

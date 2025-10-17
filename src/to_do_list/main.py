@@ -62,15 +62,16 @@ def main() -> None:
             elif choice == "7":
                 project, _ = choose_project()
                 if project:
-                    tasks = [(t.id, t.title, t.description, t.status) for t in project.all_project_tasks().values()]
+                    tasks = [(t.id, t.title, t.description,t.deadline, t.status) for t in project.all_project_tasks().values()]
                     if tasks:
                         print("\n📋 Tasks in Project:")
                         print("=" * 50)
-                        for tid, title, desc, status in tasks:
+                        for tid, title, desc, deadline, status in tasks:
                             short_desc = desc if len(desc) < 100 else desc[:100] + "..."
                             print(f"🆔 Task ID     : {tid}")
                             print(f"📌 Title       : {title}")
                             print(f"📝 Description : {short_desc}")
+                            print(f"🕒 Deadline    : {deadline}")
                             print(f"📊 Status      : {status}")
                             print("-" * 50)
                     else:

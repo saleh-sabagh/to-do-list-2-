@@ -22,21 +22,24 @@ class Task:
         if not (1 <= len(title) <= 30):
             raise ValueError("task's title must be less than 30 characters and not empty")
 
-        if not (1 <= len(description) <= 150):
-            raise ValueError("task's description must be less than 150 characters and not empty")
+        if not (len(description) <= 150):
+            raise ValueError("task's description must be less than 150 characters!")
 
-        try:
-            deadline_date = datetime.strptime(deadline, "%Y-%m-%d")
-        except ValueError:
-            raise ValueError("Invalid date format. Use YYYY-MM-DD.")
+        if deadline:
+            try:
+                deadline_date = datetime.strptime(deadline, "%Y-%m-%d")
+                self.deadline: datetime = deadline_date
 
-        if deadline_date < datetime.now():
-            raise ValueError("Deadline cannot be in the past.")
+            except ValueError:
+                raise ValueError("Invalid date format. Use YYYY-MM-DD.")
 
+            if deadline_date < datetime.now():
+                raise ValueError("Deadline cannot be in the past.")
+        else:
+            self.deadline = deadline
         self.id: str = id
         self.title: str = title
         self.description: str = description
-        self.deadline: datetime = deadline_date
         self.status: Literal["todo", "doing", "done"] = "todo"
 
     def change_title(self, new_title: str) -> None:
@@ -61,8 +64,8 @@ class Task:
         Raises:
             ValueError: If new_description length is invalid.
         """
-        if not (1 <= len(new_description) <= 150):
-            raise ValueError("task's description must be less than 150 characters and not empty")
+        if not (len(new_description) <= 150):
+            raise ValueError("task's description must be less than 150 characters")
         self.description = new_description
 
     def change_status(self, new_status: Literal["todo", "doing", "done"]) -> None:
@@ -87,15 +90,19 @@ class Task:
         Raises:
             ValueError: If the date format is invalid or the date is in the past.
         """
-        try:
-            deadline_date = datetime.strptime(new_deadline, "%Y-%m-%d")
-        except ValueError:
-            raise ValueError("Invalid date format. Use YYYY-MM-DD.")
+        
+        if new_deadline:
+            try:
+                deadline_date = datetime.strptime(new_deadline, "%Y-%m-%d")
+                self.deadline = deadline_date
 
-        if deadline_date < datetime.now():
-            raise ValueError("Deadline cannot be in the past.")
+            except ValueError:
+                raise ValueError("Invalid date format. Use YYYY-MM-DD.")
 
-        self.deadline = deadline_date
+            if deadline_date < datetime.now():
+                raise ValueError("Deadline cannot be in the past.")
+        else:
+            self.deadline = new_deadline
 
     def task_status(self) -> Literal["todo", "doing", "done"]:
         """Return the current status of the task.

@@ -86,6 +86,7 @@ def edit_project_cli(project_service: ProjectService):
 
 
 def delete_project_cli(project_service: ProjectService):
+    list_projects_cli(project_service)
     project_id = input_project_id()
     try:
         project_service.delete_project(project_id)

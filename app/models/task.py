@@ -1,7 +1,6 @@
 from datetime import datetime
 from typing import Literal
 
-
 class Task:
     """Represents a task with a title, description, deadline, and status."""
 
@@ -111,11 +110,3 @@ class Task:
             Literal["todo", "doing", "done"]: Task's status.
         """
         return self.status
-
-    def __repr__(self) -> str:
-        """Return a string representation of the task.
-
-        Returns:
-            str: Representation showing task id and title.
-        """
-        return f"Task(id='{self.id}', title='{self.title}')"

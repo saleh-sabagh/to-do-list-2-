@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 
 load_dotenv()
 
+
 DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     raise RuntimeError("DATABASE_URL not set. Check your .env file")

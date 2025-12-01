@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+
 from app.cli.console import (
     show_menu,
     input_choice,
@@ -11,24 +12,32 @@ from app.cli.console import (
     edit_task_cli,
     delete_task_cli,
 )
+
 from app.repositories.project_repository import InMemoryProjectRepository
 from app.repositories.task_repository import InMemoryTaskRepository
 from app.services.project_service import ProjectService
 from app.services.task_service import TaskService
 
-load_dotenv()
 
-def main() -> None:
-    """Run the main loop of the TO DO List Manager."""
-    
-    # ===================== Initialize Repositories & Services =====================
+def create_services() -> tuple[ProjectService, TaskService]:
+    """Initialize repositories and services and return them."""
+
     project_repo = InMemoryProjectRepository()
     task_repo = InMemoryTaskRepository()
-    
+
     project_service = ProjectService(project_repo, task_repo)
     task_service = TaskService(task_repo)
 
-    # ===================== Main CLI Loop =====================
+    return project_service, task_service
+
+
+def main() -> None:
+    """Run the main loop of the TO DO List Manager."""
+
+    load_dotenv()
+
+    project_service, task_service = create_services()
+
     while True:
         show_menu()
         choice = input_choice()

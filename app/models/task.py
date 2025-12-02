@@ -1,9 +1,23 @@
 from datetime import datetime
 from typing import Literal
 
-class Task:
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy.orm import relationship
+from app.db.base import Base
+class Task(Base):
     """Represents a task with a title, description, deadline, and status."""
 
+    __tablename__ = "tasks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(30), nullable=False)
+    description = Column(String(150))
+    deadline = Column(DateTime)
+    status = Column(String(10), default="todo")
+    project_id = Column(Integer, ForeignKey("projects.id"))
+
+    project = relationship("Project", backref="tasks")
+    
     def __init__(self, id: str, title: str, description: str, deadline: str) -> None:
         """Initialize a Task instance.
 

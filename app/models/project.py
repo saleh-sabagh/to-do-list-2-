@@ -3,6 +3,8 @@ from collections import OrderedDict
 from datetime import datetime
 from typing import ClassVar, OrderedDict as OD
 from app.models.task import Task
+from sqlalchemy import Column, Integer, String
+from app.db.base import Base
 
 class Project:
     """
@@ -11,7 +13,11 @@ class Project:
     Each project has a unique ID, name, description, and a list of tasks.
     The number of projects and tasks per project is limited by environment variables.
     """
+    __tablename__ = "projects"
 
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(30), nullable=False)
+    description = Column(String(150))
     MAX_TASKS: ClassVar[int] = int(os.getenv("MAX_NUMBER_OF_TASK", 10))
 
     def __init__(self,id: str, name: str, description: str) -> None:

@@ -6,7 +6,7 @@ from app.models.task import Task
 from sqlalchemy import Column, Integer, String
 from app.db.base import Base
 
-class Project:
+class Project(Base):
     """
     Represents a project that contains multiple tasks.
 

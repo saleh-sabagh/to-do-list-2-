@@ -18,7 +18,7 @@ class Task(Base):
 
     project = relationship("Project", backref="tasks")
     
-    def __init__(self, id: str, title: str, description: str, deadline: str) -> None:
+    def __init__(self, id: int, title: str, description: str, deadline: str) -> None:
         """Initialize a Task instance.
 
         Args:

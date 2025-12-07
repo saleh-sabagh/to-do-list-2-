@@ -20,7 +20,7 @@ class Project(Base):
     description = Column(String(150))
     MAX_TASKS: ClassVar[int] = int(os.getenv("MAX_NUMBER_OF_TASK", 10))
 
-    def __init__(self,id: str, name: str, description: str) -> None:
+    def __init__(self,id: int, name: str, description: str) -> None:
 
         if len(name) > 30 or len(name) < 1:
             raise ValueError("Project name must be less than 30 characters and not empty.")

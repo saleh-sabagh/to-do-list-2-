@@ -117,8 +117,7 @@ def list_tasks_cli(project_service: ProjectService):
         print(f"⚠️ {e}")
         return
 
-    # در SQLAlchemy، رابطه tasks به صورت لیست یا query در دسترسه
-    tasks = project.tasks  # قبلاً all_project_tasks بود
+    tasks = project.tasks  
     if not tasks:
         print("⚠️  There are no tasks in this project.")
         return

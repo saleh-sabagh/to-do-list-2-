@@ -117,7 +117,7 @@ def list_tasks_cli(project_service: ProjectService):
         print(f"⚠️ {e}")
         return
 
-    tasks = list(project.all_project_tasks().values())
+    tasks = project.tasks  
     if not tasks:
         print("⚠️  There are no tasks in this project.")
         return
@@ -125,7 +125,7 @@ def list_tasks_cli(project_service: ProjectService):
     print(f"\n📋 Tasks in Project '{project.name}':")
     print("=" * 50)
     for task in tasks:
-        short_desc = task.description if len(task.description) < 100 else task.description[:100] + "..."
+        short_desc = task.description if task.description and len(task.description) < 100 else (task.description[:100] + "..." if task.description else "")
         print(f"🆔 Task ID     : {task.id}")
         print(f"📌 Title       : {task.title}")
         print(f"📝 Description : {short_desc}")

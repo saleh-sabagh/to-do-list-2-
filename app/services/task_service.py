@@ -1,11 +1,11 @@
 from typing import List
 from app.models.task import Task
-from app.repositories.task_repository import ITaskRepository
+from app.repositories.task_sql_repository import SQLAlchemyTaskRepository
 
 class TaskService:
     """Business logic for tasks."""
 
-    def __init__(self, task_repo: ITaskRepository):
+    def __init__(self, task_repo: SQLAlchemyTaskRepository):
         self.task_repo = task_repo
 
     def get_task(self, task_id: str) -> Task:

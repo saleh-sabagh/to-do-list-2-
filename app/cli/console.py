@@ -117,7 +117,7 @@ def list_tasks_cli(project_service: ProjectService):
         print(f"⚠️ {e}")
         return
 
-    tasks = list(project.all_project_tasks().values())
+    tasks = project.tasks  
     if not tasks:
         print("⚠️  There are no tasks in this project.")
         return
@@ -125,7 +125,7 @@ def list_tasks_cli(project_service: ProjectService):
     print(f"\n📋 Tasks in Project '{project.name}':")
     print("=" * 50)
     for task in tasks:
-        short_desc = task.description if len(task.description) < 100 else task.description[:100] + "..."
+        short_desc = task.description if task.description and len(task.description) < 100 else (task.description[:100] + "..." if task.description else "")
         print(f"🆔 Task ID     : {task.id}")
         print(f"📌 Title       : {task.title}")
         print(f"📝 Description : {short_desc}")
@@ -141,25 +141,26 @@ def edit_task_cli(project_service: ProjectService ,task_service: TaskService):
     except ValueError as e:
         print(f"⚠️ {e}")
         return
+    try:
+        new_title = input("Enter new title (leave empty to keep current): ").strip()
+        if new_title:
+            task_service.update_task_title(task.id, new_title)
 
-    new_title = input("Enter new title (leave empty to keep current): ").strip()
-    if new_title:
-        task_service.update_task_title(task.id, new_title)
+        new_desc = input("Enter new description (leave empty to keep current): ").strip()
+        if new_desc:
+            task_service.update_task_description(task.id, new_desc)
 
-    new_desc = input("Enter new description (leave empty to keep current): ").strip()
-    if new_desc:
-        task_service.update_task_description(task.id, new_desc)
+        new_deadline = input("Enter new deadline (YYYY-MM-DD) (leave empty to keep current): ").strip()
+        if new_deadline:
+            task_service.update_task_deadline(task.id, new_deadline)
 
-    new_deadline = input("Enter new deadline (YYYY-MM-DD) (leave empty to keep current): ").strip()
-    if new_deadline:
-        task_service.update_task_deadline(task.id, new_deadline)
+        new_status = input("Enter new status (todo, doing, done) (leave empty to keep current): ").strip()
+        if new_status:
+            task_service.update_task_status(task.id, new_status)
 
-    new_status = input("Enter new status (todo, doing, done) (leave empty to keep current): ").strip()
-    if new_status:
-        task_service.update_task_status(task.id, new_status)
-
-    print(f"✅ Task '{task.title}' updated successfully.")
-
+        print(f"✅ Task '{task.title}' updated successfully.")
+    except ValueError:
+        print("invalid deadline format")
 def delete_task_cli(project_service: ProjectService):
     list_projects_cli(project_service)
     project_id = input_project_id()

@@ -36,7 +36,7 @@ class Task(Base):
             raise ValueError(f"Invalid status: {new_status}")
         self.status = new_status
 
-    def change_deadline(self, new_deadline: str) -> None:
+    def change_deadline(self, new_deadline: datetime) -> None:
         if new_deadline:
             try:
                 deadline_date = datetime.strptime(new_deadline, "%Y-%m-%d")

@@ -30,6 +30,7 @@ class ProjectService:
 
     def add_task_to_project(self, project_id: str, title: str, description: str, deadline: str) -> Task:
         project = self.get_project(project_id)
+        deadline = deadline if deadline else None
         task = Task(title=title, description=description, deadline=deadline, project_id=project.id)
         self.task_repo.save(task)
         return task

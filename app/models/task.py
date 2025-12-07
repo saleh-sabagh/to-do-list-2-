@@ -12,6 +12,7 @@ class Task(Base):
     description = Column(String(150))
     deadline = Column(DateTime)
     status = Column(String(10), default="todo")
+    closed_at = Column(DateTime, nullable=True)   
     project_id = Column(Integer, ForeignKey("projects.id"))
 
     # رابطه با پروژه

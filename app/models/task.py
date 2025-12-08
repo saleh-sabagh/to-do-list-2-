@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Literal, Union
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
@@ -54,7 +54,12 @@ class Task(Base):
             else:
                 raise ValueError("Deadline must be datetime, YYYY-MM-DD string, or None.")
 
-            if deadline_date < datetime.now():
+            # Normalize timezone-aware datetimes to naive UTC to avoid comparison errors
+            if deadline_date.tzinfo and deadline_date.tzinfo.utcoffset(deadline_date) is not None:
+                deadline_date = deadline_date.astimezone(timezone.utc).replace(tzinfo=None)
+
+            now = datetime.now()
+            if deadline_date < now:
                 raise ValueError("Deadline cannot be in the past.")
             self.deadline = deadline_date
         else:

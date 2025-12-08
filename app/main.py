@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 
 from app.api.router import api_router
 
@@ -24,6 +24,10 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
     app.add_middleware(GZipMiddleware, minimum_size=500)
+
+    @app.get("/", include_in_schema=False)
+    def root_redirect():
+        return RedirectResponse(url="/docs")
 
     @app.get("/api/v1/health", tags=["health"])
     def healthcheck():

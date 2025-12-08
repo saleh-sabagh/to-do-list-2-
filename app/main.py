@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
 
-from app.api.router import api_router
+from app.api.routers import api_router
 
 
 def create_app() -> FastAPI:

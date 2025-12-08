@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 
+from app.api.controller_schemas.requests import TaskPartialUpdate, TaskUpdate
+from app.api.controller_schemas.responses import TaskRead
 from app.api.deps import get_task_service
-from app.schemas import TaskPartialUpdate, TaskRead, TaskUpdate
 from app.services.task_service import TaskService
 
 router = APIRouter(prefix="/tasks", tags=["tasks"])

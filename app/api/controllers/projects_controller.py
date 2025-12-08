@@ -1,15 +1,17 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 
-from app.api.deps import get_project_service
-from app.schemas import (
+from app.api.controller_schemas.requests import (
     ProjectCreate,
     ProjectPartialUpdate,
-    ProjectRead,
     ProjectUpdate,
-    ProjectWithTasks,
     TaskCreate,
+)
+from app.api.controller_schemas.responses import (
+    ProjectRead,
+    ProjectWithTasks,
     TaskRead,
 )
+from app.api.deps import get_project_service
 from app.services.project_service import ProjectService
 
 router = APIRouter(prefix="/projects", tags=["projects"])

@@ -19,5 +19,19 @@ class SQLAlchemyTaskRepository(ITaskRepository):
     def get_by_id(self, task_id: str) -> Task | None:
         return self.db_session.get(Task, int(task_id))
 
-    def all(self) -> list[Task]:
-        return self.db_session.query(Task).all()
+    def all(self, skip: int = 0, limit: int = 100) -> list[Task]:
+        return (
+            self.db_session.query(Task)
+            .offset(int(skip))
+            .limit(int(limit))
+            .all()
+        )
+
+    def get_by_project(self, project_id: int, skip: int = 0, limit: int = 100) -> list[Task]:
+        return (
+            self.db_session.query(Task)
+            .filter(Task.project_id == int(project_id))
+            .offset(int(skip))
+            .limit(int(limit))
+            .all()
+        )

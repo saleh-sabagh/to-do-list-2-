@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Literal
+from typing import Literal, Union
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from app.db.base import Base
@@ -26,7 +26,10 @@ class Task(Base):
             raise ValueError("Task title must be 1-30 characters")
         self.title = new_title
 
-    def change_description(self, new_description: str) -> None:
+    def change_description(self, new_description: str | None) -> None:
+        if new_description is None:
+            self.description = None
+            return
         if len(new_description) > 150:
             raise ValueError("Task description must be <= 150 characters")
         self.description = new_description
@@ -36,12 +39,21 @@ class Task(Base):
             raise ValueError(f"Invalid status: {new_status}")
         self.status = new_status
 
-    def change_deadline(self, new_deadline: datetime) -> None:
+    def change_deadline(self, new_deadline: Union[datetime, str, None]) -> None:
+        """
+        Accept datetime objects or ISO date strings (YYYY-MM-DD).
+        """
         if new_deadline:
-            try:
-                deadline_date = datetime.strptime(new_deadline, "%Y-%m-%d")
-            except ValueError:
-                raise ValueError("Invalid date format. Use YYYY-MM-DD.")
+            if isinstance(new_deadline, str):
+                try:
+                    deadline_date = datetime.strptime(new_deadline, "%Y-%m-%d")
+                except ValueError as exc:
+                    raise ValueError("Invalid date format. Use YYYY-MM-DD.") from exc
+            elif isinstance(new_deadline, datetime):
+                deadline_date = new_deadline
+            else:
+                raise ValueError("Deadline must be datetime, YYYY-MM-DD string, or None.")
+
             if deadline_date < datetime.now():
                 raise ValueError("Deadline cannot be in the past.")
             self.deadline = deadline_date

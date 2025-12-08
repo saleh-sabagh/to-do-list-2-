@@ -24,7 +24,10 @@ class Project(Base):
             raise ValueError("Project name must be 1-30 characters")
         self.name = new_name
 
-    def change_description(self, new_description: str) -> None:
+    def change_description(self, new_description: str | None) -> None:
+        if new_description is None:
+            self.description = None
+            return
         if len(new_description) > 150:
             raise ValueError("Project description must be <= 150 characters")
         self.description = new_description

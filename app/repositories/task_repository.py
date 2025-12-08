@@ -21,8 +21,13 @@ class ITaskRepository(ABC):
         ...
 
     @abstractmethod
-    def all(self) -> List[Task]:
+    def all(self, skip: int = 0, limit: int = 100) -> List[Task]:
         """Return all tasks."""
+        ...
+    
+    @abstractmethod
+    def get_by_project(self, project_id: int, skip: int = 0, limit: int = 100) -> List[Task]:
+        """Return tasks for a given project."""
         ...
         
 class InMemoryTaskRepository(ITaskRepository):
@@ -43,6 +48,11 @@ class InMemoryTaskRepository(ITaskRepository):
         """Retrieve a task by ID."""
         return self.tasks.get(task_id)
 
-    def all(self) -> List[Task]:
+    def all(self, skip: int = 0, limit: int = 100) -> List[Task]:
         """Return all tasks."""
-        return list(self.tasks.values())
+        tasks = list(self.tasks.values())
+        return tasks[skip : skip + limit]
+    
+    def get_by_project(self, project_id: int, skip: int = 0, limit: int = 100) -> List[Task]:
+        project_tasks = [task for task in self.tasks.values() if task.project_id == project_id]
+        return project_tasks[skip : skip + limit]

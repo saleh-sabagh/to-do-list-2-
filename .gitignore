@@ -1,3 +1,21 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+.idea/
+.vscode/
+.DS_Store
+.mypy_cache/
+.ruff_cache/
+.coverage
+.cache/
+.ropeproject
+.python-version
+.env
+.env.*
+*.sqlite3
+*.db
+poetry.lock.bak
 # Git ignore file
 # Python cache
 __pycache__/

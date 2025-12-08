@@ -18,7 +18,7 @@ class IProjectRepository(ABC):
         ...
 
     @abstractmethod
-    def all(self) -> List[Project]:
+    def all(self, skip: int = 0, limit: int = 100) -> List[Project]:
         ...
 
 class InMemoryProjectRepository(IProjectRepository):
@@ -38,5 +38,6 @@ class InMemoryProjectRepository(IProjectRepository):
     def get_by_id(self, project_id: str) -> Project | None:
         return self.projects.get(project_id)
 
-    def all(self) -> List[Project]:
-        return list(self.projects.values())
+    def all(self, skip: int = 0, limit: int = 100) -> List[Project]:
+        projects = list(self.projects.values())
+        return projects[skip : skip + limit]

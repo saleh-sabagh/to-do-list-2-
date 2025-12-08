@@ -1,105 +1,56 @@
-# 🗂️ To-Do List Manager
+# 🗂️ To-Do List (FastAPI Phase 3)
 
-A simple and structured command-line (CLI) project and task management tool.  
-This program helps you organize projects and tasks efficiently — with full control over creation, editing, deletion, and viewing.
+FastAPI Web API for managing projects and tasks, built on the existing service/repository layer. The legacy CLI remains available but is now deprecated (see `DEPRECATION.md`).
 
----
+## Stack
+- FastAPI + Pydantic
+- SQLAlchemy (sync) + Alembic
+- PostgreSQL (default) — SQLite supported for local tests
+- Poetry for dependency management
+- Pytest + httpx for API tests
 
-## ✨ Features
+## Getting started
+1. Install Poetry (https://python-poetry.org/docs/#installation)
+2. Install deps
+   ```bash
+   poetry install
+   ```
+3. Configure environment
+   ```bash
+   cp .env.example .env
+   # update DATABASE_URL=postgresql+psycopg2://user:pass@localhost:5432/tododb
+   ```
+4. Run migrations (local/dev DB)
+   ```bash
+   alembic upgrade head
+   ```
+5. Launch API
+   ```bash
+   poetry run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+   ```
+6. Open docs: http://localhost:8000/docs (or Redoc at `/redoc`)
 
-- ✅ Create and delete projects  
-- ✅ Add, edit, and remove tasks within each project  
-- ✅ Validate titles, descriptions, and deadlines  
-- ✅ Beautiful and user-friendly CLI interface  
-- ✅ Modular and extensible design (future-ready for GUI or API)  
-- ✅ Manage multiple projects simultaneously  
+## Endpoints (v1)
+- `GET /api/v1/health` – healthcheck
+- `GET /api/v1/projects` / `POST /api/v1/projects`
+- `GET /api/v1/projects/{project_id}` / `PUT` / `PATCH` / `DELETE`
+- `GET /api/v1/projects/{project_id}/tasks` / `POST`
+- `GET /api/v1/tasks` / `GET|PUT|PATCH|DELETE /api/v1/tasks/{task_id}`
 
----
-
-
----
-
-## 🚀 Installation & Usage
-
-### 1️⃣ Requirements
-Make sure Python 3.9 or higher is installed:
-
+## CLI (deprecated)
+The CLI still works for now:
 ```bash
-python --version
+poetry run python main.py
 ```
-گ
-### 2️⃣ Clone the repository
+On start it emits a deprecation warning. No new features will be added; migrate to the API.
 
+## Testing
 ```bash
-git clone https://github.com/saleh-sabagh/to-do-list-2-
-cd to-do-list-2-/src/to_do_list
+DATABASE_URL=sqlite:///./test.db poetry run pytest -q
 ```
 
-### 3️⃣ Install dependencies
-
-```bash
-pip install poetry
-poetry install
-```
-
-
-### 4️⃣ Run the program
-
-```bash
-poetry env activate
-poetry run python -m main
-```
-## 💡 How to Use
-
-After running the program, you’ll see the main CLI menu:
-
-===== TO DO LIST MANAGER =====
-1. Create new project
-2. Add task to project
-3. Edit project
-4. Edit task
-5. Delete task from project
-6. List all projects
-7. List tasks in project
-8. Delete project
-0. Exit
-==============================
-
-
-### Available actions:
-
-1 → Create a new project
-
-2 → Add a task to a project
-
-3 / 4 → Edit project or task
-
-5 / 8 → Delete task or project
-
-6 / 7 → View all projects or all tasks
-
-## 🧠 Object-Oriented Design
-### 🧩 Task Class
-
-Represents a single task with:
-
-id: unique identifier
-
-title: short name of the task
-
-description: detailed information
-
-deadline: due date in YYYY-MM-DD format
-
-status: "todo", "doing", or "done"
-
-### 🗂️ Project Class
-
-Represents a project containing multiple tasks:
-
-Add or remove tasks
-
-Edit project name or description
-
-Retrieve and list project tasks
+## Development notes
+- Environment secrets live in `.env` (not committed).
+- CI runs linting (ruff/black/isort) and tests via GitHub Actions (`.github/workflows/ci.yml`).
+- Service and repository layers remain reusable by both CLI and API.
 

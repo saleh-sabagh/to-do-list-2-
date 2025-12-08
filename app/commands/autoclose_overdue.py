@@ -14,7 +14,7 @@ def autoclose_overdue(session: Session) -> int:
     now = datetime.now()
     # پیدا کردن تسک‌هایی که deadline کمتر از الان دارند و هنوز done نیستند
     overdue_tasks: List[Task] = session.query(Task).filter(
-        Task.deadline != None,
+        Task.deadline.is_not(None),
         Task.deadline < now,
         Task.status != "done"
     ).all()

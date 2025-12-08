@@ -74,15 +74,17 @@ def edit_project_cli(project_service: ProjectService):
         return
 
     new_name = input("Enter new name (leave empty to keep current): ").strip()
-    if new_name:
-        project.name = new_name
-
     new_desc = input("Enter new description (leave empty to keep current): ").strip()
-    if new_desc:
-        project.description = new_desc
 
-    project_service.project_repo.save(project)
-    print(f"✅ Project '{project.name}' updated successfully.")
+    try:
+        project = project_service.update_project(
+            project_id=project.id,
+            name=new_name if new_name else None,
+            description=new_desc if new_desc else None,
+        )
+        print(f"✅ Project '{project.name}' updated successfully.")
+    except ValueError as exc:
+        print(f"⚠️ {exc}")
 
 
 def delete_project_cli(project_service: ProjectService):

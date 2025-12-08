@@ -19,5 +19,10 @@ class SQLAlchemyProjectRepository(IProjectRepository):
     def get_by_id(self, project_id: str) -> Project | None:
         return self.db_session.get(Project, int(project_id))
 
-    def all(self) -> list[Project]:
-        return self.db_session.query(Project).all()
+    def all(self, skip: int = 0, limit: int = 100) -> list[Project]:
+        return (
+            self.db_session.query(Project)
+            .offset(int(skip))
+            .limit(int(limit))
+            .all()
+        )

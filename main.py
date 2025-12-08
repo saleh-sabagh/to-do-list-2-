@@ -1,7 +1,16 @@
+import warnings
+
 from app.cli.console import (
-    show_menu, input_choice,
-    create_project_cli, list_projects_cli, edit_project_cli, delete_project_cli,
-    add_task_cli, list_tasks_cli, edit_task_cli, delete_task_cli
+    add_task_cli,
+    create_project_cli,
+    delete_project_cli,
+    delete_task_cli,
+    edit_project_cli,
+    edit_task_cli,
+    input_choice,
+    list_projects_cli,
+    list_tasks_cli,
+    show_menu,
 )
 from app.db.session import get_db_session
 from app.repositories.project_sql_repository import SQLAlchemyProjectRepository
@@ -10,6 +19,12 @@ from app.services.project_service import ProjectService
 from app.services.task_service import TaskService
 
 def main():
+    warnings.warn(
+        "The CLI is deprecated and will be removed in a future phase. "
+        "Please migrate to the FastAPI service at /api/v1.",
+        DeprecationWarning,
+        stacklevel=1,
+    )
     # ================= DI: ایجاد Session و Repositoryها =================
     with get_db_session() as session:
         project_repo = SQLAlchemyProjectRepository(db_session=session)
